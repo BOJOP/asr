@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ASR project</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" type="text/css" href="./css/semantic.min.css">
+
+    <link rel="stylesheet" type="text/css" href="./css/demo.css">
+  </head>
+
+  <body>
+
+    <div class="ui container">
+
+			<span id="serverStatusBar" title="Number of available workers"></span>
+
+			<textarea id="trans" rows="5" style="width:100%; margin-top:.5em">
+			</textarea>
+
+			<select id="servers" name="servers" style="margin-top:.5em">
+				<option value="wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status" selected="selected">English</option>
+			</select>
+
+			<hr/>
+			<center>
+				<div>
+					<button
+						class="positive ui button"
+						id="buttonToggleListening"
+						onclick="toggleListening();">Start</button>
+					<button
+						class="negative ui button"
+						id="buttonCancel"
+						disabled="disabled"
+						onclick="cancel();">Cancel</button>
+					<button
+						class="ui button"
+						onclick="clearTranscription();">Clear</button>
+				</div>
+			</center>
+			
+			<hr/>
+
+			<pre id="log">
+			</pre>
+
+    </div>
+
+  </body>
+
+	<script src="./javascripts/jquery-3.2.1.min.js"></script>
+	<script src="./javascripts/semantic.min.js"></script>
+
+	<script src="./lib/dictate.js"></script>
+	<script src="./lib/recorder.js"></script>
+	<script src="./javascripts/mob.js"></script>
+
+</html>
