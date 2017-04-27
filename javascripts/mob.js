@@ -39,17 +39,17 @@ function prettyfyHyp(text, doCapFirst, doPrependSpace) {
 		} else {
 			text = text + token;
 		}
-		if (token == "." ||  /\n$/.test(token)) {							
+		if (token == "." ||  /\n$/.test(token)) {
 			doCapitalizeNext = true;
 		} else {
 			doCapitalizeNext = false;
-		}						
+		}
 	});
-	
+
 	text = text.replace(/ ([,.!?:;])/g,  "\$1");
 	text = text.replace(/ ?\n ?/g,  "\n");
 	return text;
-}	
+}
 
 
 var dictate = new Dictate({
@@ -100,15 +100,15 @@ var dictate = new Dictate({
 		onPartialResults : function(hypos) {
 			hypText = prettyfyHyp(hypos[0].transcript, doUpper, doPrependSpace);
 			val = $("#trans").val();
-			$("#trans").val(val.slice(0, startPosition) + hypText + val.slice(endPosition));        
+			$("#trans").val(val.slice(0, startPosition) + hypText + val.slice(endPosition));
 			endPosition = startPosition + hypText.length;
 			$("#trans").prop("selectionStart", endPosition);
 		},
 		onResults : function(hypos) {
 			hypText = prettyfyHyp(hypos[0].transcript, doUpper, doPrependSpace);
 			val = $("#trans").val();
-			$("#trans").val(val.slice(0, startPosition) + hypText + val.slice(endPosition));        
-			startPosition = startPosition + hypText.length;			
+			$("#trans").val(val.slice(0, startPosition) + hypText + val.slice(endPosition));
+			startPosition = startPosition + hypText.length;
 			endPosition = startPosition;
 			$("#trans").prop("selectionStart", endPosition);
 			if (/\. *$/.test(hypText) ||  /\n *$/.test(hypText)) {
@@ -158,21 +158,20 @@ function cancel() {
 	dictate.cancel();
 }
 
-function clearTranscription() {	
+function clearTranscription() {
 	$("#trans").val("");
 	// needed, otherwise selectionStart will retain its old value
-	$("#trans").prop("selectionStart", 0);	
-	$("#trans").prop("selectionEnd", 0);	
+	$("#trans").prop("selectionStart", 0);
+	$("#trans").prop("selectionEnd", 0);
 }
 
 $(document).ready(function() {
-	dictate.init();
+  dictate.init();
 
-	$("#servers").change(function() {
-		dictate.cancel();
-		var servers = $("#servers").val().split('|');
-		dictate.setServer(servers[0]);
-		dictate.setServerStatus(servers[1]);
-	});
+  //dictate.cancel();
+  //var servers = $("#servers").val().split('|');
+	//dictate.setServer(servers[0]);
+	//dictate.setServerStatus(servers[1]);
+
 
 });
