@@ -19,13 +19,33 @@
 
 			<span id="serverStatusBar" title="Number of available workers"></span>
 
+			<br><br>
+
+			<center>
+        <div class="ui grid">
+          <div class="two wide column border-head">t\d</div>
+          <div class="two wide column border-head">Monday</div>
+          <div class="two wide column border-head">Tuesday</div>
+          <div class="two wide column border-head">Wednesday</div>
+          <div class="two wide column border-head">Thursday</div>
+          <div class="two wide column border-head">Friday</div>
+          <div class="two wide column border-head">Saturday</div>
+          <div class="two wide column border-head border-right">Sunday</div>
+        </div>
+        <div class="ui grid timetable" id="timetable">
+        </div>
+      </center>
+
+			<br><br>
+
 			<textarea id="trans" rows="5" style="width:100%; margin-top:.5em">
 			</textarea>
 
 
 			<input id="servers" type="text" value="wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status" hidden />
 
-			<hr/>
+			<br><br>
+
 			<center>
 				<div>
 					<button
@@ -43,26 +63,11 @@
 				</div>
 			</center>
 
-			<hr>
-
-      <center>
-        <div class="ui grid" id="timetable">
-          <div class="two wide column">t\d</div>
-          <div class="two wide column">Monday</div>
-          <div class="two wide column">Tuesday</div>
-          <div class="two wide column">Wednesday</div>
-          <div class="two wide column">Thursday</div>
-          <div class="two wide column">Friday</div>
-          <div class="two wide column">Saturday</div>
-          <div class="two wide column">Sunday</div>
-
-        </div>
-      </center>
-
-      <hr>
+			<br><br>
 
 
-			<pre id="log">
+
+			<pre id="responses">
 			</pre>
 
     </div>
@@ -77,15 +82,19 @@
 
 	<script src="./lib/dictate.js"></script>
 	<script src="./lib/recorder.js"></script>
-	<script src="./javascripts/mob.js"></script>
+	<script src="./javascripts/demo.js"></script>
   <script>
+		function to_time(i){
+			return Math.floor((i/2)).toString() + ((i%2)==0?":00":":30");
+		}
+
     $(function() {
       for(var i=1;i<=48;i++){
-        for(var j=1;j<=8;j++){
-          if(j==1){
-            $('#timetable').append("<div class='two wide column'>" + floor((i/2)) + ((i%2)==0?":30":":00") + "</div>");
+        for(var j=0;j<8;j++){
+          if(j==0){
+            $('#timetable').append("<div class='two wide column border-side'>" + to_time(i) + "</div>");
           } else {
-            $('#timetable').append("<div class='two wide column'>a</div>");
+						$('#timetable').append("<div id='" + i + "_" + j + "' class='two wide column border-right border-bottom'></div>");
           }
         }
       }

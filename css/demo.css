@@ -1,15 +1,8 @@
-.controls {
-	display: block;
-	margin-top: .5em;
-	margin-bottom: .5em;
-	padding: 0;
+#responses {
+	font-size: 12px;
 }
-#log {
-	font-size: 80%
-}
+
 #statusBar {
-	font-family: monospace;
-	color: #9F000F;
 	margin-top: 1em;
 	margin-bottom: 1em;
 	padding: 0;
@@ -20,42 +13,59 @@
 	right: 0.4em;
 	top: auto;
 	left: auto;
-	font-family: monospace;
 	padding: 0.2em 0.2em 0.2em 0.2em;
 }
-.highlight {
-	color: red;
-}
-ins {
-	background-color: #c6ffc6;
-	text-decoration: none;
+
+.border-side {
+	border-right: 1px solid #979797;
 }
 
-del {
-	background-color: #ffc6c6;
+.border-head {
+	border-left: 1px solid #979797;	
+	border-top: 1px solid #979797;	
 }
-.diff {
-	font-family: monospace;
+
+.border-right {
+	border-right: 1px solid #979797;	
+}
+
+.border-bottom {
+	border-bottom: 1px solid #979797;	
+}
+
+::-webkit-scrollbar {
+    width: 15px;
+		background: #c1c1c1;
+}
+
+::-webkit-scrollbar-track{
+    background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb{
+    width: 15px;
+    background: #c1c1c1;
+}
+
+#timetable {
+	border: 1px solid #979797;
+	margin-right: -30px;
+	height: 450px;
+	overflow-y: auto;
+}
+
+.primary-color {
+	background-color: #5bff81;
+}
+
+.event {
+	background-color: #5bff81;
+	border-radius: 10px;
+	margin-bottom: 2px;
+}
+
+.ui.grid>.column:not(.row) {
+	padding-top: 0.4rem;
+	padding-bottom: 0.4rem;
 }
 
 
-.buttonsContainer {
-	display: table;
-	position: fixed;
-	bottom: 0%;
-	left: 0%;
-	width: 100%;
-	height: 10%;
-	text-align: center;
-	background-color: rgba(128,128,200,0.7);
-}
-
-.buttons {
-	display: table-cell;
-	vertical-align: middle;
-	padding: 0.5em;
-}
-
-button {
-	width: 7em;
-}
