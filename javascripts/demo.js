@@ -380,8 +380,6 @@ function processSentence(sentence) {
 			var activity = words.slice(state.get("activity")["start"],state.get("activity")["end"]).join("");
 			var day = state.get("day")["id"]-8;
 			var time = state.get("time")["id"]-15;
-			console.log(command);
-			console.log(state.get("activity")["id"]);
 
 			//add activity
 			if(command == 1){
@@ -396,14 +394,8 @@ function processSentence(sentence) {
 								
 			}
 			
-			//TODO: (check) delete activity
+			//delete activity
 			if(command == 2){
-				console.log(stateConfirm);
-				console.log(statusConfirm);
-				console.log(command);
-				console.log(activityId);
-				console.log(day);
-				console.log(time);
 				var stateTemp = {
 					command: command,
 					activtiy: activityId,
@@ -411,15 +403,13 @@ function processSentence(sentence) {
 					time: time,
 				}
 
-				console.log(stateTemp)
-
 				if(statusConfirm && JSON.stringify(stateConfirm) == JSON.stringify(stateTemp)) {
-					console.log("aaaaaa");
 					$('#' + time + "_" + day).find("." + activityId).remove();
 				} else {
 					statusConfirm = true;
 					clearStatusConfirm = false;
 					stateConfirm = stateTemp;
+					$('.ui.basic.cancel').trigger('click');
 					$('#message-confirm').html("If you want to remove '" + activity + "' from " + dayWord[day] + " " + to_time(time) + ", please speak it again.");
 					$('.ui.basic.modal').modal('show');
 				}
