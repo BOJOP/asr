@@ -406,11 +406,17 @@ function processSentence(sentence) {
 				if(statusConfirm && JSON.stringify(stateConfirm) == JSON.stringify(stateTemp)) {
 					$('#' + time + "_" + day).find("." + activityId).remove();
 				} else {
-					statusConfirm = true;
-					clearStatusConfirm = false;
-					stateConfirm = stateTemp;
+					var message_alert = "You don't have '" + activity + "' at " + dayWord[day] + " " + to_time(time) + ".";
+					
+					if($('#' + time + "_" + day).find("." + activityId).length > 0) {				
+						statusConfirm = true;
+						clearStatusConfirm = false;
+						stateConfirm = stateTemp;
+						message_alert = "If you want to remove '" + activity + "' from " + dayWord[day] + " " + to_time(time) + ", please speak it again.";
+					}
+					
 					$('.ui.basic.cancel').trigger('click');
-					$('#message-confirm').html("If you want to remove '" + activity + "' from " + dayWord[day] + " " + to_time(time) + ", please speak it again.");
+					$('#message-confirm').html(message_alert);
 					$('.ui.basic.modal').modal('show');
 				}
 			}
@@ -426,6 +432,7 @@ function processSentence(sentence) {
 	
 	if(clearStatusConfirm) {
 		statusConfirm = false;
+		stateConfirm = {};
 		$('.ui.basic.cancel').trigger('click');
 	}
 	state.clear();
