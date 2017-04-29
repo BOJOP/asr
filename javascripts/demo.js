@@ -16,6 +16,19 @@ var endPosition = 0;
 var doUpper = false;
 var doPrependSpace = true;
 
+var stateConfirm;
+var statusConfirm = false;
+
+var dayWord = {
+	1: "Monday",
+	2: "Tuesday",
+	3: "Wednesday",
+	4: "Thrusday",
+	5: "Friday",
+	6: "Saturday",
+	7: "Sunday"
+}
+
 var typeOfwordArray = [
 [ "เพิ่ม", "command"],
 [ "เพิ่ม นัด", "command"],
@@ -328,6 +341,10 @@ function checkTemplate(state) {
 	}
 	return -1;
 }
+
+function to_time(i){
+	return Math.floor((i/2)).toString() + ((i%2)==0?":00":":30");
+}
 	
 function processSentence(sentence) {
 
@@ -353,21 +370,22 @@ function processSentence(sentence) {
 
 	var idTemplate = checkTemplate(state);
 
+	var clearStatusConfirm = true;
+	
 	if(idTemplate >= 0) {
-		console.log("d");
 		
 		if(idTemplate == 0) {
 			var command = state.get("command")["id"];
+			var activityId = state.get("activity")["id"];
 			var activity = words.slice(state.get("activity")["start"],state.get("activity")["end"]).join("");
 			var day = state.get("day")["id"]-8;
 			var time = state.get("time")["id"]-15;
 
 			//add activity
 			if(command == 1){
-				console.log("f");
 
 				$('#' + time + "_" + day).append(
-					  "<div class='event'>"
+					  "<div class='event " + activityId + "'>"
 					+ "	 <div class='description'>"
 					+ activity
 					+ "	 </div>"
@@ -376,11 +394,25 @@ function processSentence(sentence) {
 								
 			}
 			
-			//TODO: delete activity
+			//TODO: (check) delete activity
 			if(command == 2){
-				
+				var stateTemp = {
+					command: command,
+					activtiy: activtiyId,
+					day: day,
+					time: time,
+				}
+
+				if(statusConfirm && JSON.stringify(stateConfirm) == JSON.stringify(stateTemp)) {
+					$('#' + time + "_" + day).find("." + activityId).remove();
+				} else {
+					statusConfirm = true;
+					clearStatusConfirm = false;
+					stateConfirm = stateTemp;
+					$('#message-confirm').html("If you want to remove '" + activity + "' from " + dayWord(day) + " " + to_time(time) + ", please speak it again.");
+					$('.ui.basic.modal').modal('show');
+				}
 			}
-			
 
 		}
 		
@@ -388,8 +420,13 @@ function processSentence(sentence) {
 		if(idTemplate == 1) {
 		
 		}
+		
 	}
 	
+	if(clearStatusConfirm) {
+		statusConfirm = false;
+		$('.ui.basic.cancel').trigger('click');
+	}
 	state.clear();
 }
 	
@@ -460,6 +497,5 @@ $(document).ready(function() {
   //var servers = $("#servers").val().split('|');
 	//dictate.setServer(servers[0]);
 	//dictate.setServerStatus(servers[1]);
-
 
 });
