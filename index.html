@@ -42,7 +42,9 @@
 			</textarea>
 
 
-			<input id="servers" type="text" value="wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status" hidden />
+			<input id="servers" type="text" value="ws://localhost:8080/client/ws/speech|ws://localhost:8080/client/ws/status" hidden />
+
+      
 
 			<br><br>
 
@@ -94,7 +96,7 @@
           if(j==0){
             $('#timetable').append("<div class='two wide column border-side'>" + to_time(i) + "</div>");
           } else {
-						$('#timetable').append("<div id='" + i + "_" + j + "' class='two wide column border-right border-bottom'></div>");
+						$('#timetable').append("<div id='" + i + "_" + j + "' class='two wide column border-right'></div>");
           }
         }
       }

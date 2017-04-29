@@ -34,7 +34,7 @@ var typeOfwordArray = [
 [ "ประชุม", "activity"],
 [ "ส่ง รายงาน", "activity"],
 [ "ทุก รายการ", "activity"],
-[ "กินข้าว ", "activity"],
+[ "กินข้าว", "activity"],
 [ "ประชุม", "activity"],
 [ "เพื่อน", "activity"],
 [ "ทำงาน", "activity"],
@@ -120,7 +120,7 @@ var idOfWordArray = [
 [ "ประชุม", 4],
 [ "ส่ง รายงาน", 4],
 [ "ทุก รายการ", 4],
-[ "กินข้าว ", 4],
+[ "กินข้าว", 4],
 [ "ประชุม", 4],
 [ "เพื่อน", 4],
 [ "ทำงาน", 4],
@@ -332,6 +332,7 @@ function checkTemplate(state) {
 function processSentence(sentence) {
 
 	var words = sentence.split(" ");
+	words[words.length-1] = words[words.length-1].substring(0, words[words.length-1].length-1);
 	var state = new Map();
 	
 	for(var start=0;start<words.length;start++){
@@ -355,7 +356,7 @@ function processSentence(sentence) {
 	if(idTemplate >= 0) {
 		console.log("d");
 		
-		if(idTemplate == 1) {
+		if(idTemplate == 0) {
 			var command = state.get("command")["id"];
 			var activity = words.slice(state.get("activity")["start"],state.get("activity")["end"]).join("");
 			var day = state.get("day")["id"]-8;
@@ -384,7 +385,7 @@ function processSentence(sentence) {
 		}
 		
 		//TODO: template => question and day
-		if(idTemplate == 2) {
+		if(idTemplate == 1) {
 		
 		}
 	}
