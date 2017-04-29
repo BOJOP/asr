@@ -372,7 +372,8 @@ function processSentence(sentence) {
 
 	var clearStatusConfirm = true;
 	
-	$('.ui.basic.cancel').trigger('click');
+	$('#modal-confirm').modal('hide dammer');
+	$('#modal-detail').modal('hide dammer');
 
 	if(idTemplate >= 0) {
 		
@@ -448,7 +449,6 @@ function processSentence(sentence) {
 					message_alert += "</h5>";
 				}
 			
-				$('.ui.basic.cancel').trigger('click');
 				$('#message-detail').html(message_alert);				
 				$('#modal-detail').modal('show');
 			}
