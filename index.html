@@ -74,7 +74,7 @@
 
     </div>
 		
-		<div class="ui basic modal">
+		<div id="modal-confirm" class="ui basic modal">
 			<div class="ui icon header">
 				<i class="warning sign icon"></i>
 				Warning
@@ -85,11 +85,28 @@
 			<div class="actions">
 				<div class="ui red basic cancel inverted button">
 					<i class="remove icon"></i>
-					cancel
+					close
 				</div>
 			</div>
 		</div>
 
+		<div id="modal-detail" class="ui basic modal">
+			<div class="ui icon header">
+				<i class="calendar icon"></i>
+				Calendar
+			</div>
+			<div class="content">
+				<p id="message-detail"></p>
+			</div>
+			<div class="actions">
+				<div class="ui red basic cancel inverted button">
+					<i class="remove icon"></i>
+					close
+				</div>
+			</div>
+		</div>
+
+		
   </body>
 
 	<script src="./javascripts/jquery-3.2.1.min.js"></script>

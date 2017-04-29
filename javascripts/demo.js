@@ -372,8 +372,12 @@ function processSentence(sentence) {
 
 	var clearStatusConfirm = true;
 	
+	$('.ui.basic.cancel').trigger('click');
+
 	if(idTemplate >= 0) {
 		
+		
+		//template => command activity day time
 		if(idTemplate == 0) {
 			var command = state.get("command")["id"];
 			var activityId = state.get("activity")["id"];
@@ -415,17 +419,39 @@ function processSentence(sentence) {
 						message_alert = "If you want to remove '" + activity + "' from " + dayWord[day] + " " + to_time(time) + ", please speak it again.";
 					}
 					
-					$('.ui.basic.cancel').trigger('click');
 					$('#message-confirm').html(message_alert);
-					$('.ui.basic.modal').modal('show');
+					$('#modal-confirm').modal('show');
 				}
 			}
 
 		}
 		
-		//TODO: template => question and day
+		//template => question and day
 		if(idTemplate == 1) {
-		
+			
+			var command = state.get("command")["id"];
+			var day = state.get("day")["id"]-8;
+			
+			//TODO: (TEST) list all activity
+			if(command == 3) {
+			
+				var message_alert = "";
+				
+				for(var i=1;i<=48;i++){
+					message_alert += "<h5>";
+					$("#" + i + "_" + j).find('.description').each(function( index ) {
+						if(index == 0)
+							message_alert += to_time(i) + " => " + $( this ).text();
+						else
+							message_alert += ", " + $( this ).text();
+					});
+					message_alert += "</h5>";
+				}
+			
+				$('.ui.basic.cancel').trigger('click');
+				$('#message-detail').html(message_alert);				
+				$('#modal-detail').modal('show');
+			}
 		}
 		
 	}
@@ -433,8 +459,8 @@ function processSentence(sentence) {
 	if(clearStatusConfirm) {
 		statusConfirm = false;
 		stateConfirm = {};
-		$('.ui.basic.cancel').trigger('click');
 	}
+	
 	state.clear();
 }
 	
