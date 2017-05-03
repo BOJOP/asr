@@ -516,6 +516,7 @@ function processSentence(sentence) {
 	var servers = listServer[currentState].split('|');
 	dictate.setServer(servers[0]);
 	dictate.setServerStatus(servers[1]);
+	toggleListening();
 	
 	console.log(currentState);
 	
