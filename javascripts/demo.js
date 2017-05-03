@@ -16,8 +16,16 @@ var endPosition = 0;
 var doUpper = false;
 var doPrependSpace = true;
 
-var stateConfirm;
-var statusConfirm = false;
+var keepState = {};
+
+// 1 => command
+// 2 => confirm
+var currentState = 1;
+
+var listServer = ["",
+									"ws://localhost:8080/client/ws/speech|ws://localhost:8080/client/ws/status",
+									"ws://localhost:8081/client/ws/speech|ws://localhost:8081/client/ws/status"];
+
 
 var dayWord = {
 	1: "Monday",
@@ -36,7 +44,9 @@ var typeOfwordArray = [
 [ "สร้าง งาน", "command"],
 [ "แจ้ง เตือน", "command"],
 [ "ยกเลิก", "command"],
+[ "ตกลง", "command"],
 [ "ยกเลิก นัด", "command"],
+[ "ยืนยัน", "command"],
 [ "มี นัด อะไร บ้าง", "question"],
 [ "มี งาน อะไร บ้าง", "question"],
 [ "เรียง นัด ทั้งหมด ของ", "question"],
@@ -64,7 +74,7 @@ var typeOfwordArray = [
 [ "วัน พฤหัส", "day"],
 [ "วัน ศุกร์", "day"],
 [ "วัน เสาร์", "day"],
-[ "วัน อาทิตย์", "day"],
+[ "วัน อาทิตย์", "day"]
 [ "ตี หนึ่ง", "time"],
 [ "ตี หนึ่ง ครึ่ง", "time"],
 [ "ตี สอง", "time"],
@@ -112,98 +122,106 @@ var typeOfwordArray = [
 [ "ห้า ทุ่ม", "time"],
 [ "ห้า ทุ่ม ครึ่ง", "time"],
 [ "เที่ยงคืน", "time"],
-[ "เที่ยงคืน ครึ่ง", "time"]	
+[ "เที่ยงคืน ครึ่ง", "time"],
 ];
 
 var idOfWordArray = [
-	[ "เพิ่ม", 1],
+[ "เพิ่ม", 1],
 [ "เพิ่ม นัด", 1],
 [ "นัด", 1],
 [ "สร้าง งาน", 1],
 [ "แจ้ง เตือน", 1],
 [ "ยกเลิก", 2],
-[ "ยกเลิก นัด", 2],
-[ "มี นัด อะไร บ้าง", 3],
-[ "มี งาน อะไร บ้าง", 3],
-[ "เรียง นัด ทั้งหมด ของ", 3],
-[ "กินข้าว", 64],
-[ "ส่ง งาน", 65],
-[ "ประชุม", 66],
-[ "เพื่อน คุย งาน ", 67],
-[ "ประชุม", 68],
-[ "ส่ง รายงาน", 69],
-[ "ทุก รายการ", 70],
-[ "กินข้าว", 71],
-[ "ประชุม", 72],
-[ "เพื่อน", 73],
-[ "ทำงาน", 74],
-[ "นำเสนอ โปรเจค", 75],
-[ "ดู ซีรีย์", 76],
-[ "ไป เรียนพิเศษ", 77],
-[ "เมื่อวาน", 5],
-[ "วันนี้", 6],
-[ "พรุ่งนี้", 7],
-[ "มะรืนนี้", 8],
-[ "วัน จันทร์", 9],
-[ "วัน อังคาร", 10],
-[ "วัน พุธ", 11],
-[ "วัน พฤหัส", 12],
-[ "วัน ศุกร์", 13],
-[ "วัน เสาร์", 14],
-[ "วัน อาทิตย์", 15],
-[ "เที่ยงคืน ครึ่ง", 16],
-[ "ตี หนึ่ง", 17],
-[ "ตี หนึ่ง ครึ่ง", 18],
-[ "ตี สอง", 19],
-[ "ตี สอง ครึ่ง", 20],
-[ "ตี สาม", 21],
-[ "ตี สาม ครึ่ง", 22],
-[ "ตี สี่", 23],
-[ "ตี สี่ ครึ่ง", 24],
-[ "ตี ห้า", 25],
-[ "ตี ห้า ครึ่ง", 26],
-[ "หก โมง", 27],
-[ "หก โมง ครึ่ง", 28],
-[ "เจ็ด โมง", 29],
-[ "เจ็ด โมง ครึ่ง", 30],
-[ "แปด โมง", 31],
-[ "แปด โมง ครึ่ง", 32],
-[ "เก้า โมง", 33],
-[ "เก้า โมง ครึ่ง", 34],
-[ "สิบ โมง", 35],
-[ "สิบ โมง ครึ่ง", 36],
-[ "สิบ เอ็ด โมง", 37],
-[ "สิบ เอ็ด โมง ครึ่ง", 38],
-[ "เที่ยง", 39],
-[ "เที่ยง ครึ่ง", 40],
-[ "บ่าย โมง", 41],
-[ "บ่าย โมง ครึ่ง", 42],
-[ "บ่าย สอง", 43],
-[ "บ่าย สอง ครึ่ง", 44],
-[ "บ่าย สาม", 45],
-[ "บ่าย สาม ครึ่ง", 46],
-[ "สี่ โมง ", 47],
-[ "สี่ โมง ครึ่ง", 48],
-[ "ห้า โมง", 49],
-[ "ห้า โมง ครึ่ง", 50],
-[ "หก โมง", 51],
-[ "หก โมง ครึ่ง", 52],
-[ "หนึ่ง ทุ่ม", 53],
-[ "หนึ่ง ทุ่ม ครึ่ง", 54],
-[ "สอง ทุ่ม", 55],
-[ "สอง ทุ่ม ครึ่ง", 56],
-[ "สาม ทุ่ม", 57],
-[ "สาม ทุ่ม ครึ่ง", 58],
-[ "สี่ ทุ่ม", 59],
-[ "สี่ ทุ่ม ครึ่ง", 60],
-[ "ห้า ทุ่ม", 61],
-[ "ห้า ทุ่ม ครึ่ง", 62],
-[ "เที่ยงคืน", 63],
+[ "ยกเลิก นัด", 3],
+[ "ยืนยัน", 4],
+[ "ตกลง", 4],
+[ "มี นัด อะไร บ้าง", 5],
+[ "มี งาน อะไร บ้าง", 5],
+[ "เรียง นัด ทั้งหมด ของ", 5],
+[ "กินข้าว", 101],
+[ "ส่ง งาน", 102],
+[ "ประชุม", 103],
+[ "เพื่อน คุย งาน ", 104],
+[ "ประชุม", 105],
+[ "ส่ง รายงาน", 106],
+[ "ทุก รายการ", 107],
+[ "กินข้าว", 108],
+[ "ประชุม", 109],
+[ "เพื่อน", 110],
+[ "ทำงาน", 111],
+[ "นำเสนอ โปรเจค", 112],
+[ "ดู ซีรีย์", 113],
+[ "ไป เรียนพิเศษ", 114],
+[ "เมื่อวาน", 201],
+[ "วันนี้", 202],
+[ "พรุ่งนี้", 202],
+[ "มะรืนนี้", 204],
+[ "วัน จันทร์", 205],
+[ "วัน อังคาร", 206],
+[ "วัน พุธ", 207],
+[ "วัน พฤหัส", 208],
+[ "วัน ศุกร์", 209],
+[ "วัน เสาร์", 210],
+[ "วัน อาทิตย์", 211],
+[ "เที่ยงคืน ครึ่ง", 301],
+[ "ตี หนึ่ง", 302],
+[ "ตี หนึ่ง ครึ่ง", 303],
+[ "ตี สอง", 304],
+[ "ตี สอง ครึ่ง", 305],
+[ "ตี สาม", 306],
+[ "ตี สาม ครึ่ง", 307],
+[ "ตี สี่", 308],
+[ "ตี สี่ ครึ่ง", 309],
+[ "ตี ห้า", 310],
+[ "ตี ห้า ครึ่ง", 311],
+[ "หก โมง", 312],
+[ "หก โมง ครึ่ง", 313],
+[ "เจ็ด โมง", 314],
+[ "เจ็ด โมง ครึ่ง", 315],
+[ "แปด โมง", 316],
+[ "แปด โมง ครึ่ง", 317],
+[ "เก้า โมง", 318],
+[ "เก้า โมง ครึ่ง", 319],
+[ "สิบ โมง", 320],
+[ "สิบ โมง ครึ่ง", 321],
+[ "สิบ เอ็ด โมง", 322],
+[ "สิบ เอ็ด โมง ครึ่ง", 323],
+[ "เที่ยง", 324],
+[ "เที่ยง ครึ่ง", 325],
+[ "บ่าย โมง", 326],
+[ "บ่าย โมง ครึ่ง", 327],
+[ "บ่าย สอง", 328],
+[ "บ่าย สอง ครึ่ง", 329],
+[ "บ่าย สาม", 330],
+[ "บ่าย สาม ครึ่ง", 331],
+[ "สี่ โมง ", 332],
+[ "สี่ โมง ครึ่ง", 333],
+[ "ห้า โมง", 334],
+[ "ห้า โมง ครึ่ง", 335],
+[ "หก โมง", 336],
+[ "หก โมง ครึ่ง", 337],
+[ "หนึ่ง ทุ่ม", 338],
+[ "หนึ่ง ทุ่ม ครึ่ง", 339],
+[ "สอง ทุ่ม", 340],
+[ "สอง ทุ่ม ครึ่ง", 341],
+[ "สาม ทุ่ม", 342],
+[ "สาม ทุ่ม ครึ่ง", 343],
+[ "สี่ ทุ่ม", 344],
+[ "สี่ ทุ่ม ครึ่ง", 345],
+[ "ห้า ทุ่ม", 346],
+[ "ห้า ทุ่ม ครึ่ง", 347],
+[ "เที่ยงคืน", 348],
 ];
 
 var template = [
-	["command", "activity", "day", "time"],
-	["day", "question"]
+	[],
+	[
+		["command", "activity", "day", "time"],
+		["day", "question"]
+	],
+	[
+		["command"]
+	]
 ];
 
 var typeOfword = new Map(typeOfwordArray);
@@ -247,8 +265,8 @@ function prettyfyHyp(text, doCapFirst, doPrependSpace) {
 
 
 var dictate = new Dictate({
-		server : $("#servers").val().split('|')[0],
-		serverStatus : $("#servers").val().split('|')[1],
+		server : listServer[currentState].split('|')[0],
+		serverStatus : listServer[currentState].split('|')[1],
 		recorderWorkerPath : './lib/recorderWorker.js',
 		onReadyForSpeech : function() {
 			isConnected = true;
@@ -327,11 +345,11 @@ function convertToObject(json) {
 	return JSON.parse(json);
 }
 
-function checkTemplate(state) {
-	for(var i=0;i<template.length;i++){
+function checkTemplate(currentState,state) {
+	for(var i=0;i<template[currentState].length;i++){
 		var chk = 0;
-		for(var j=0;j<template[i].length;j++){
-			if(!state.get(template[i][j])){
+		for(var j=0;j<template[currentState][i].length;j++){
+			if(!state.get(template[currentState][i][j])){
 				chk = 1;
 				break;
 			}
@@ -344,6 +362,24 @@ function checkTemplate(state) {
 
 function to_time(i){
 	return Math.floor((i/2)).toString() + ((i%2)==0?":00":":30");
+}
+
+function convert_day(day) {
+	day = day-204;
+	
+	if(day<=0){
+		var d = (new Date()).getDay();
+		day += 2 + d;
+		day%=7;
+		if(day==0)
+			day=7;
+	}
+	
+	return day;
+}
+
+function convert_time(time) {
+	return time-15;
 }
 	
 function processSentence(sentence) {
@@ -367,80 +403,66 @@ function processSentence(sentence) {
 			}
 		}
 	}
-
-	var idTemplate = checkTemplate(state);
-
-	var clearStatusConfirm = true;
 	
-	$('#modal-confirm').modal('hide dammer');
-	$('#modal-detail').modal('hide dammer');
+	var idTemplate = checkTemplate(currentState,state);
 
-	if(idTemplate >= 0) {
-		
-		
+	if( currentState == 1 ) { //for command
+
 		//template => command activity day time
 		if(idTemplate == 0) {
 			var command = state.get("command")["id"];
 			var activityId = state.get("activity")["id"];
 			var activity = words.slice(state.get("activity")["start"],state.get("activity")["end"]).join("");
-			var day = state.get("day")["id"]-8;
-			var time = state.get("time")["id"]-15;
+			var day = convert_day(state.get("day")["id"]);
+			var time = convert_time(state.get("time")["id"]);
 
+			keepState = {
+				command: command,
+				activtiy: activityId,
+				day: day,
+				time: time,
+			}
+
+			var message_alert = "";
+			
 			//add activity
 			if(command == 1){
+				message_alert = "If you want to add '" + activity + "' at " + dayWord[day] + " " + to_time(time) + ", please speak 'ยืนยัน / ยกเลิก'.";
 
-				$('#' + time + "_" + day).append(
-					  "<div class='event " + activityId + "'>"
-					+ "	 <div class='description'>"
-					+ activity
-					+ "	 </div>"
-					+ "</div>"
-				);
-								
+				currentState = 2;
 			}
 			
 			//delete activity
-			if(command == 2){
-				var stateTemp = {
-					command: command,
-					activtiy: activityId,
-					day: day,
-					time: time,
-				}
+			if(command == 2 || command == 3){
 
-				if(statusConfirm && JSON.stringify(stateConfirm) == JSON.stringify(stateTemp)) {
-					$('#' + time + "_" + day).find("." + activityId).remove();
-				} else {
-					var message_alert = "You don't have '" + activity + "' at " + dayWord[day] + " " + to_time(time) + ".";
+				var message_alert = "You don't have '" + activity + "' at " + dayWord[day] + " " + to_time(time) + ".";
+				
+				if($('#' + time + "_" + day).find("." + activityId).length > 0) {				
+					message_alert = "If you want to remove '" + activity + "' from " + dayWord[day] + " " + to_time(time) + ", please speak 'ยืนยัน / ยกเลิก'.";
 					
-					if($('#' + time + "_" + day).find("." + activityId).length > 0) {				
-						statusConfirm = true;
-						clearStatusConfirm = false;
-						stateConfirm = stateTemp;
-						message_alert = "If you want to remove '" + activity + "' from " + dayWord[day] + " " + to_time(time) + ", please speak it again.";
-					}
-					
-					$('#message-confirm').html(message_alert);
-					$('#modal-confirm').modal('show');
+					currentState = 2;
 				}
+				
 			}
-
+			
+			$('#message-confirm').html(message_alert);
+			$('#modal-confirm').modal('show');
 		}
 		
 		//template => question and day
 		if(idTemplate == 1) {
 			
 			var command = state.get("command")["id"];
-			var day = state.get("day")["id"]-8;
+			var day = convert_day(state.get("day")["id"]);
 			
-			//TODO: (TEST) list all activity
-			if(command == 3) {
+			//list all activity
+			if(command == 5) {
 			
 				var message_alert = "";
 				
 				for(var i=1;i<=48;i++){
 					message_alert += "<h5>";
-					$("#" + i + "_" + j).find('.description').each(function( index ) {
+					$("#" + i + "_" + day).find('.description').each(function( index ) {
 						if(index == 0)
 							message_alert += to_time(i) + " => " + $( this ).text();
 						else
@@ -454,12 +476,48 @@ function processSentence(sentence) {
 			}
 		}
 		
+	} else if(currentState == 2) { // for confirm
+	
+		if(idTemplate == 0) {
+			var command = state.get("command")["id"];
+			
+			//ยกเลิก
+			if(command == 2) {
+				keepState = {};
+				currentState = 1;
+				$('#modal-confirm').modal('hide dammer');
+			}
+			
+			//ยืนยัน and ตกลง
+			if(command == 4) {
+
+				if(keepState.command == 1){
+					$('#' + time + "_" + day).append(
+							"<div class='event " + keepState.activityId + "'>"
+						+ "	 <div class='description'>"
+						+ keepState.activity
+						+ "	 </div>"
+						+ "</div>"
+					);
+									
+				}
+
+				if(keepState.command == 2 || keepState.command == 3){
+					$('#' + keepState.time + "_" + keepState.day).find("." + keepState.activityId).remove();				
+				}
+				
+				currentState = 1;
+				$('#modal-confirm').modal('hide dammer');
+			}
+		}
 	}
 	
-	if(clearStatusConfirm) {
-		statusConfirm = false;
-		stateConfirm = {};
-	}
+	dictate.cancel();
+	var servers = listServer[currentState].split('|');
+	dictate.setServer(servers[0]);
+	dictate.setServerStatus(servers[1]);
+	
+	console.log(currentState);
 	
 	state.clear();
 }
@@ -527,9 +585,5 @@ function clearTranscription() {
 $(document).ready(function() {
   dictate.init();
 
-  //dictate.cancel();
-  //var servers = $("#servers").val().split('|');
-	//dictate.setServer(servers[0]);
-	//dictate.setServerStatus(servers[1]);
 
 });
