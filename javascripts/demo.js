@@ -23,8 +23,8 @@ var keepState = {};
 var currentState = 1;
 
 var listServer = ["",
-									"ws://localhost:8080/client/ws/speech|ws://localhost:8080/client/ws/status",
-									"ws://localhost:8081/client/ws/speech|ws://localhost:8081/client/ws/status"];
+									"ws://localhost:8081/client/ws/speech|ws://localhost:8081/client/ws/status",
+									"ws://localhost:8080/client/ws/speech|ws://localhost:8080/client/ws/status"];
 
 
 var dayWord = {
@@ -154,7 +154,7 @@ var idOfWordArray = [
 [ "ไป เรียนพิเศษ", 114],
 [ "เมื่อวาน", 201],
 [ "วันนี้", 202],
-[ "พรุ่งนี้", 202],
+[ "พรุ่งนี้", 203],
 [ "มะรืนนี้", 204],
 [ "วัน จันทร์", 205],
 [ "วัน อังคาร", 206],
@@ -379,7 +379,7 @@ function convert_day(day) {
 }
 
 function convert_time(time) {
-	return time-15;
+	return time-300;
 }
 	
 function processSentence(sentence) {
@@ -418,9 +418,10 @@ function processSentence(sentence) {
 
 			keepState = {
 				command: command,
-				activtiy: activityId,
+				activtiyId: activityId,
 				day: day,
 				time: time,
+				activity: activity
 			}
 
 			var message_alert = "";
@@ -490,9 +491,8 @@ function processSentence(sentence) {
 			
 			//ยืนยัน and ตกลง
 			if(command == 4) {
-
 				if(keepState.command == 1){
-					$('#' + time + "_" + day).append(
+					$('#' + keepState.time + "_" + keepState.day).append(
 							"<div class='event " + keepState.activityId + "'>"
 						+ "	 <div class='description'>"
 						+ keepState.activity
@@ -516,13 +516,17 @@ function processSentence(sentence) {
 	var servers = listServer[currentState].split('|');
 	dictate.setServer(servers[0]);
 	dictate.setServerStatus(servers[1]);
-	toggleListening();
+	setTimeout(function(){
+	    toggleListening();
+	}, 3000);
 	
 	console.log(currentState);
 	
 	state.clear();
 }
 	
+
+
 function process(data){
 	var response = convertToObject(data);
 	
