@@ -13,9 +13,9 @@
     <link rel="stylesheet" type="text/css" href="./css/demo.css">
   </head>
 
-  <body style="background-color: #d54444;">
+  <body class="primary-color";>
 	
-		<div style="background-color: white;margin-left: 100px;margin-right: 100px;">
+		<div style="background-color: white;color: black;margin-left: 100px;margin-right: 100px;">
 
 			<div style="margin-left: 40px;margin-right: 55px;">
 
@@ -27,13 +27,13 @@
 						
 					<div class="ui grid">
 						<div class="two wide column"><h3><br><br></h3></div>
-						<div class="two wide column border-head"><h3>Monday<br></h3></div>
-						<div class="two wide column border-head"><h3>Tuesday<br></h3></div>
-						<div class="two wide column border-head"><h3>Wednesday<br></h3></div>
-						<div class="two wide column border-head"><h3>Thursday<br></h3></div>
-						<div class="two wide column border-head"><h3>Friday<br></h3></div>
-						<div class="two wide column border-head"><h3>Saturday<br></h3></div>
-						<div class="two wide column border-head border-right"><h3>Sunday<br></h3></div>
+						<div class="two wide column primary-color border-head"><h3>Monday<br></h3></div>
+						<div class="two wide column primary-color border-head"><h3>Tuesday<br></h3></div>
+						<div class="two wide column primary-color border-head"><h3>Wednesday<br></h3></div>
+						<div class="two wide column primary-color border-head"><h3>Thursday<br></h3></div>
+						<div class="two wide column primary-color border-head"><h3>Friday<br></h3></div>
+						<div class="two wide column primary-color border-head"><h3>Saturday<br></h3></div>
+						<div class="two wide column primary-color border-head border-right"><h3>Sunday<br></h3></div>
 					</div>        
 					
 					<div class="ui grid timetable" id="timetable">
@@ -42,7 +42,7 @@
 
 				<br><br>
 
-				<textarea id="trans" rows="5" style="width:100%; margin-top:.5em">
+				<textarea id="trans" rows="4" style="width:100%; margin-top:.5em">
 				</textarea>
 
 
@@ -72,12 +72,9 @@
 						</button>
 					</div>
 				</center>
+				<br>
 
-				<br><br>
-
-
-
-				<pre id="responses">
+				<pre id="responses" hidden>
 				</pre>
 
 			</div>
@@ -129,7 +126,7 @@
       for(var i=1;i<=48;i++){
         for(var j=0;j<8;j++){
           if(j==0){
-            $('#timetable').append("<div class='two wide column border-side border-bottom'>" + to_time(i) + "</div>");
+            $('#timetable').append("<div class='two wide column primary-color border-side border-bottom'>" + to_time(i) + "</div>");
           } else {
 						$('#timetable').append("<div id='" + i + "_" + j + "' class='two wide column border-right border-bottom'></div>");
           }

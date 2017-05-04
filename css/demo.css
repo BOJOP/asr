@@ -24,8 +24,6 @@
   border-left: 1px solid #979797; 
   border-top: 1px solid #979797; 
   border-bottom: 3px solid #000000; 
-	background-color: #d54444;
-	color: #ffffff;
 }
 
 .border-right {
@@ -52,17 +50,15 @@
 #timetable {
 	border: 1px solid #979797;
 	margin-right: -30px;
-	height: 350px;
+	height: 400px;
 	overflow-y: auto;
 }
 
 .primary-color {
-	background-color: #5bff81;
+	background-color: #f16565;
+	color: #ffffff;
 }
 
-div.back {
-	background-color: #ffffff;
-}
 
 .event {
 	background-color: #00d1b2;
