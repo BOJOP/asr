@@ -13,93 +13,102 @@
     <link rel="stylesheet" type="text/css" href="./css/demo.css">
   </head>
 
-  <body>
+  <body style="background-color: #d54444;">
+	
+		<div style="background-color: white;margin-left: 100px;margin-right: 100px;">
 
-    <div class="ui container">
+			<div style="margin-left: 40px;margin-right: 55px;">
 
-			<span id="serverStatusBar" title="Number of available workers"></span>
+				<span id="serverStatusBar" title="Number of available workers"></span>
 
-			<br><br>
+				<br><br>
 
-			<center>
-        <div class="ui grid">
-          <div class="two wide column border-head">t\d</div>
-          <div class="two wide column border-head">Monday</div>
-          <div class="two wide column border-head">Tuesday</div>
-          <div class="two wide column border-head">Wednesday</div>
-          <div class="two wide column border-head">Thursday</div>
-          <div class="two wide column border-head">Friday</div>
-          <div class="two wide column border-head">Saturday</div>
-          <div class="two wide column border-head border-right">Sunday</div>
-        </div>
-        <div class="ui grid timetable" id="timetable">
-        </div>
-      </center>
+				<center>
+						
+					<div class="ui grid">
+						<div class="two wide column"><h3><br><br></h3></div>
+						<div class="two wide column border-head"><h3>Monday<br></h3></div>
+						<div class="two wide column border-head"><h3>Tuesday<br></h3></div>
+						<div class="two wide column border-head"><h3>Wednesday<br></h3></div>
+						<div class="two wide column border-head"><h3>Thursday<br></h3></div>
+						<div class="two wide column border-head"><h3>Friday<br></h3></div>
+						<div class="two wide column border-head"><h3>Saturday<br></h3></div>
+						<div class="two wide column border-head border-right"><h3>Sunday<br></h3></div>
+					</div>        
+					
+					<div class="ui grid timetable" id="timetable">
+					</div>
+				</center>
 
-			<br><br>
+				<br><br>
 
-			<textarea id="trans" rows="5" style="width:100%; margin-top:.5em">
-			</textarea>
+				<textarea id="trans" rows="5" style="width:100%; margin-top:.5em">
+				</textarea>
 
 
 
-      
+		 
+				<br><br>
 
-			<br><br>
+				<center>
+					<div>
+						<button
+							class="record"
+							id="buttonToggleListening"
+							onclick="toggleListening();">
+							<img id="mic-ready" src="./images/mic-rea.png" />
+							<img id="mic-disable" src="./images/mic-dis.png" hidden />
+							<img id="mic-record" src="./images/mic-rec.png" hidden />
+						</button>
+						<button
+							id="buttonCancel"
+							disabled="disabled"
+							onclick="cancel();" hidden>
+						</button>
+						<button
+							class="record"
+							onclick="clearTranscription();">
+							<img id="mic-record" src="./images/cancel.png" />
+						</button>
+					</div>
+				</center>
 
-			<center>
-				<div>
-					<button
-						class="positive ui button"
-						id="buttonToggleListening"
-						onclick="toggleListening();">Start</button>
-					<button
-						class="negative ui button"
-						id="buttonCancel"
-						disabled="disabled"
-						onclick="cancel();">Cancel</button>
-					<button
-						class="ui button"
-						onclick="clearTranscription();">Clear</button>
+				<br><br>
+
+
+
+				<pre id="responses">
+				</pre>
+
+			</div>
+			
+			<div id="modal-confirm" class="ui basic modal">
+				<div class="ui icon header">
+					<i class="warning sign icon"></i>
+					Confirm
 				</div>
-			</center>
-
-			<br><br>
-
-
-
-			<pre id="responses">
-			</pre>
-
-    </div>
-		
-		<div id="modal-confirm" class="ui basic modal">
-			<div class="ui icon header">
-				<i class="warning sign icon"></i>
-				Confirm
-			</div>
-			<div class="content">
-				<p id="message-confirm"></p>
-			</div>
-		</div>
-
-		<div id="modal-detail" class="ui basic modal">
-			<div class="ui icon header">
-				<i class="calendar icon"></i>
-				Calendar
-			</div>
-			<div class="content">
-				<p id="message-detail"></p>
-			</div>
-			<div class="actions">
-				<div class="ui red basic cancel inverted button">
-					<i class="remove icon"></i>
-					close
+				<div class="content">
+					<p id="message-confirm"></p>
 				</div>
 			</div>
-		</div>
 
-		
+			<div id="modal-detail" class="ui basic modal">
+				<div class="ui icon header">
+					<i class="calendar icon"></i>
+					Calendar
+				</div>
+				<div class="content">
+					<p id="message-detail"></p>
+				</div>
+				<div class="actions">
+					<div class="ui red basic cancel inverted button">
+						<i class="remove icon"></i>
+						close
+					</div>
+				</div>
+			</div>
+
+		</div>
   </body>
 
 	<script src="./javascripts/jquery-3.2.1.min.js"></script>
@@ -120,9 +129,9 @@
       for(var i=1;i<=48;i++){
         for(var j=0;j<8;j++){
           if(j==0){
-            $('#timetable').append("<div class='two wide column border-side'>" + to_time(i) + "</div>");
+            $('#timetable').append("<div class='two wide column border-side border-bottom'>" + to_time(i) + "</div>");
           } else {
-						$('#timetable').append("<div id='" + i + "_" + j + "' class='two wide column border-right'></div>");
+						$('#timetable').append("<div id='" + i + "_" + j + "' class='two wide column border-right border-bottom'></div>");
           }
         }
       }

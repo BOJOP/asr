@@ -23,10 +23,11 @@ var keepState = {};
 var currentState = 1;
 
 var listServer = ["",
+									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status",
+									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status",
 									"ws://localhost:8080/client/ws/speech|ws://localhost:8080/client/ws/status",
 									"ws://localhost:8081/client/ws/speech|ws://localhost:8081/client/ws/status",
-									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status",
-									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status"];
+""];
 
 
 var dayWord = {
@@ -273,9 +274,14 @@ var dictate = new Dictate({
 		onReadyForSpeech : function() {
 			isConnected = true;
 			__message("READY FOR SPEECH");
-			$("#buttonToggleListening").html('Stop');
+			
+			$("#mic-record").show();
+			$("#mic-ready").hide();
+			$("#mic-disable").hide();
+			
 			$("#buttonToggleListening").addClass('highlight');
 			$("#buttonToggleListening").prop("disabled", false);
+
 			$("#buttonCancel").prop("disabled", false);
 			startPosition = $("#trans").prop("selectionStart");
 			endPosition = startPosition;
@@ -289,13 +295,19 @@ var dictate = new Dictate({
 		},
 		onEndOfSpeech : function() {
 			__message("END OF SPEECH");
-			$("#buttonToggleListening").html('Stopping...');
-			$("#buttonToggleListening").prop("disabled", true);
+			$("#mic-record").hide();
+			$("#mic-ready").hide();
+			$("#mic-disable").show();
+			
 		},
 		onEndOfSession : function() {
 			isConnected = false;
 			__message("END OF SESSION");
-			$("#buttonToggleListening").html('Start');
+			
+			$("#mic-record").hide();
+			$("#mic-ready").show();
+			$("#mic-disable").hide();
+			
 			$("#buttonToggleListening").removeClass('highlight');
 			$("#buttonToggleListening").prop("disabled", false);
 			$("#buttonCancel").prop("disabled", true);
@@ -306,8 +318,18 @@ var dictate = new Dictate({
 			// If there are no workers and we are currently not connected
 			// then disable the Start/Stop button.
 			if (json.num_workers_available == 0 && ! isConnected) {
+			
+				$("#mic-record").hide();
+				$("#mic-ready").hide();
+				$("#mic-disable").show();
+				
 				$("#buttonToggleListening").prop("disabled", true);
 			} else {
+						
+				$("#mic-record").show();
+				$("#mic-ready").hide();
+				$("#mic-disable").hide();
+				
 				$("#buttonToggleListening").prop("disabled", false);
 			}
 		},
