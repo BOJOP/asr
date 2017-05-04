@@ -536,10 +536,13 @@ function processSentence(sentence) {
 		}
 	}
 	
+	dictate.cancel();
 	var servers = listServer[currentState].split('|');
 	dictate.setServer(servers[0]);
 	dictate.setServerStatus(servers[1]);
-	dictate.startListening();
+	setTimeout(function(){
+		dictate.startListening();
+	},3000);
 	
 	state.clear();
 }
