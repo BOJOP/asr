@@ -23,10 +23,10 @@ var keepState = {};
 var currentState = 1;
 
 var listServer = ["",
-									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status",
-									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status",
 									"ws://localhost:8080/client/ws/speech|ws://localhost:8080/client/ws/status",
-									"ws://localhost:8081/client/ws/speech|ws://localhost:8081/client/ws/status"];
+									"ws://localhost:8081/client/ws/speech|ws://localhost:8081/client/ws/status",
+									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status",
+									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status"];
 
 
 var dayWord = {
