@@ -23,8 +23,10 @@ var keepState = {};
 var currentState = 1;
 
 var listServer = ["",
-									"ws://localhost:8081/client/ws/speech|ws://localhost:8081/client/ws/status",
-									"ws://localhost:8080/client/ws/speech|ws://localhost:8080/client/ws/status"];
+									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status",
+									"wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/speech|wss://bark.phon.ioc.ee:8443/english/duplex-speech-api/ws/status",
+									"ws://localhost:8080/client/ws/speech|ws://localhost:8080/client/ws/status",
+									"ws://localhost:8081/client/ws/speech|ws://localhost:8081/client/ws/status"];
 
 
 var dayWord = {
@@ -512,15 +514,10 @@ function processSentence(sentence) {
 		}
 	}
 	
-	dictate.cancel();
 	var servers = listServer[currentState].split('|');
 	dictate.setServer(servers[0]);
 	dictate.setServerStatus(servers[1]);
-	setTimeout(function(){
-	    toggleListening();
-	}, 3000);
-	
-	console.log(currentState);
+	dictate.startListening();
 	
 	state.clear();
 }
