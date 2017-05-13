@@ -18,12 +18,8 @@ For simplicity during the path setting, Apache server need to be installed. Our 
 For any issue, please contact us.
 
 Our Team
-
-Korrawe   Karunratanakul  5731002421
-
-Kitipong  Sirirueagnsakul 5731008221
-
-Poomarin   Phloyphisut  5731091221
-
-Suthum  Thitiananpakorn 5731109021
+- Korrawe   Karunratanakul  5731002421
+- Kitipong  Sirirueagnsakul 5731008221
+- Poomarin   Phloyphisut  5731091221
+- Suthum  Thitiananpakorn 5731109021
 
