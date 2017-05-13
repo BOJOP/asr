@@ -1,7 +1,7 @@
 Auto Speech Recognition Calendar
 ==========
 
-For simplicity during the setting, Apache server need to be installed. Our team used XAMPP so we're providing a guide for XAMPP only.
+For simplicity during the path setting, Apache server need to be installed. Our team used XAMPP so we're providing a guide for XAMPP only.
 
 1. Install a distribution of XAMPP based on your platform (https://www.apachefriends.org/index.html)
 
@@ -10,8 +10,8 @@ For simplicity during the setting, Apache server need to be installed. Our team 
 	- For Windows, put the folder asr/ in C:/xampp/htdocs/ (or the installed path)
 
 3. Run server based on your platform
-	- For MacOS, run manager-osx (type the word in Spotlight). Then go to "Manage Servers" tab, choose Apache Web Server and choose Start.
-	- For Windows, "XAMPP Control Panel" should already be installed with the XAMPP. The shortcut should be on your desktop. Open it and Press Start on the row that has Apache as a Module. 
+	- For MacOS, run manager-osx (type the word in the Spotlight). Then go to "Manage Servers" tab, choose Apache Web Server and choose Start.
+	- For Windows, "XAMPP Control Panel" should already be installed with XAMPP. The shortcut should be on your desktop. Open it and Press Start on the row that has Apache as a Module. 
 
 4. Open the application website via the url localhost:80/asr
 
