@@ -1,5 +1,7 @@
-Auto Speech Recognition Calendar
+SOUNDCHEDULE
 ==========
+
+Installation
 
 For simplicity during the path setting, Apache server need to be installed. Our team used XAMPP so we're providing a guide for XAMPP only.
 
