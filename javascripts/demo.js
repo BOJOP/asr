@@ -442,11 +442,12 @@ function processSentence(sentence) {
 
 			keepState = {
 				command: command,
-				activtiyId: activityId,
+				activityId: activityId,
 				day: day,
 				time: time,
 				activity: activity
 			}
+			console.log(keepState);
 
 			var message_alert = "";
 			
@@ -505,7 +506,8 @@ function processSentence(sentence) {
 	
 		if(idTemplate == 0) {
 			var command = state.get("command")["id"];
-			
+			console.log(keepState);
+
 			//ยกเลิก
 			if(command == 2) {
 				keepState = {};
@@ -592,7 +594,7 @@ function __updateTranscript(text) {
 // Public methods (called from the GUI)
 function toggleListening() {
 	if (isConnected) {
-		dictate.stopListening();
+		dictate.cancel();
 	} else {
 		dictate.startListening();
 	}
