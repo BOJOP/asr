@@ -1,13 +1,25 @@
 Auto Speech Recognition Calendar
 ==========
 
-For simplicity during the setting process, Apache server need to be installed. Our team used Xampp so we'll provide a guide for Xampp.
+For simplicity during the path setting, Apache server need to be installed. Our team used XAMPP so we're providing a guide for XAMPP only.
 
-1. Clone or download this repository, assuming that the root folder is asr/
+1. Install a distribution of XAMPP based on your platform (https://www.apachefriends.org/index.html)
 
-1. Install a distribution of Xampp from based on your platform https://www.apachefriends.org/index.html
+2. Clone or download this repository, assuming that the root folder is asr/
+	- For MacOS, put the folder asr/ in /Applications/XAMPP/xamppfiles/htdocs/
+	- For Windows, put the folder asr/ in C:/xampp/htdocs/ (or the installed path)
 
-2. For MacOS, put the folder asr/ in /Applications/XAMPP/xamppfiles/htdocs/
+3. Run server based on your platform
+	- For MacOS, run manager-osx (type the word in the Spotlight). Then go to "Manage Servers" tab, choose Apache Web Server and choose Start.
+	- For Windows, "XAMPP Control Panel" should already be installed with XAMPP. The shortcut should be on your desktop. Open it and Press Start on the row that has Apache as a Module. 
 
-3. For MacOS, run manager-osx (type the word in Spotlight). Then go to "Manage Servers" tab, choose Apache Web Server and choose Start. The url localhost:80/asr should be the  the application.
+4. Open the application website via the url localhost:80/asr
+
+For any issue, please contact us.
+
+Our Team
+- Korrawe   Karunratanakul  5731002421
+- Kitipong  Sirirueagnsakul 5731008221
+- Poomarin   Phloyphisut  5731091221
+- Suthum  Thitiananpakorn 5731109021
 
